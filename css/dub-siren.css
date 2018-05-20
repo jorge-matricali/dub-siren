@@ -25,22 +25,38 @@ SOFTWARE.
 body {
     background-color: #fff;
 }
-input[name="oscillatorType"] {
+.trigger {
+    width: 96px;
+    height: 24px;
+}
+.trigger:before {
+    content: '🔈';
+}
+.component {
+    width: 30%;
+    padding-right: 10px;
+    float: left;
+}
+.oscillator {
+    padding: 10px;
+    background: #ccc;
+}
+.oscillator input[name="oscillatorType"] {
     width: 50px;
 }
-input[name="oscillatorType"]:after {
+.oscillator input[name="oscillatorType"]:after {
     display: block;
     margin-left: 20px;
 }
-.option-sine:after {
+.oscillator .option-sine:after {
     content: url(https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Simple_sine_wave.svg/24px-Simple_sine_wave.svg.png);
 }
-.option-square:after {
+.oscillator .option-square:after {
     content: url(https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Square_wave.svg/24px-Square_wave.svg.png);
 }
-.option-sawtooth:after {
+.oscillator .option-sawtooth:after {
     content: url(https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Sawtooth_wave.svg/24px-Sawtooth_wave.svg.png);
 }
-.option-triangle:after {
+.oscillator .option-triangle:after {
     content: url(https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Triangle_wave.svg/24px-Triangle_wave.svg.png);
 }
