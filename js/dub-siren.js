@@ -52,7 +52,7 @@ function DubSiren (container, options) {
     // Oscillator
     var oscillatorNode = context.createOscillator();
     oscillatorNode.type = 'sine';
-    oscillatorNode.frequency.setValueAtTime(440, context.currentTime); // value in hertz
+    oscillatorNode.frequency.setValueAtTime(100, context.currentTime); // value in hertz
     oscillatorNode.connect(gainNode);
     oscillatorNode.start();
 
@@ -69,7 +69,40 @@ function DubSiren (container, options) {
 
     var triggerButton = document.createElement('button');
 
+    var oscillatorTypes = [
+        'sine',
+        'square',
+        'sawtooth',
+        'triangle'
+    ];
 
+    var oscillatorTypeSelector = document.createElement('div');
+
+    [].forEach.call(oscillatorTypes, function (e) {
+        var rad = document.createElement('input');
+        rad.type = 'radio';
+        rad.name = 'oscillatorType';
+        rad.value = e;
+        if (e === 'sine') {
+            rad.checked = true;
+        }
+        rad.classList.add('option-' + e);
+        rad.onclick = function () {
+            siren._oscillator.type = this.value;
+        };
+        oscillatorTypeSelector.appendChild(rad);
+    });
+
+    var frequencySelector = document.createElement('input');
+    frequencySelector.type = 'number';
+    frequencySelector.min = 0;
+    frequencySelector.max = 1000;
+    frequencySelector.value = 100;
+    var onchangeFrequency = function () {
+        siren._oscillator.frequency.setValueAtTime(this.value, siren._context.currentTime);
+    };
+    frequencySelector.addEventListener('input', onchangeFrequency);
+    frequencySelector.addEventListener('click', onchangeFrequency);
 
     var siren = {
         '_context': context,
@@ -179,6 +212,8 @@ function DubSiren (container, options) {
 
     container.appendChild(visualizer);
     container.appendChild(triggerButton);
+    container.appendChild(oscillatorTypeSelector);
+    container.appendChild(frequencySelector);
 
     // Finish initialize
     siren.setVolume(0);

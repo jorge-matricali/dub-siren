@@ -23,5 +23,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 body {
-    background-color: #000;
+    background-color: #fff;
+}
+input[name="oscillatorType"] {
+    width: 50px;
+}
+input[name="oscillatorType"]:after {
+    display: block;
+    margin-left: 20px;
+}
+.option-sine:after {
+    content: url(https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Simple_sine_wave.svg/24px-Simple_sine_wave.svg.png);
+}
+.option-square:after {
+    content: url(https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Square_wave.svg/24px-Square_wave.svg.png);
+}
+.option-sawtooth:after {
+    content: url(https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Sawtooth_wave.svg/24px-Sawtooth_wave.svg.png);
+}
+.option-triangle:after {
+    content: url(https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Triangle_wave.svg/24px-Triangle_wave.svg.png);
 }
