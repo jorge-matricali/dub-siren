@@ -48,7 +48,7 @@ function DubSiren (container, options) {
     // Master
     var gainNode = context.createGain ? context.createGain() : context.createGainNode();
     gainNode.gain.value = 0;
-    gainNode.connect(context.destination);
+
 
     // Oscillator
     var oscillatorNodeA = new Oscillator(context);
@@ -71,6 +71,12 @@ function DubSiren (container, options) {
     var triggerButton = document.createElement('button');
     triggerButton.classList.add('trigger');
 
+    var mixer = new Mixer(context);
+    mixer.connect(context.destination);
+    mixer.connect(analyser._analyser);
+    gainNode.connect(mixer._gainNode);
+    var keyboard = new Keyboard();
+
     var siren = {
         '_context': context,
         '_gainNode': gainNode,
@@ -81,6 +87,8 @@ function DubSiren (container, options) {
             oscillatorNodeB,
             oscillatorNodeC
         ],
+        '_keyboard': keyboard,
+        '_mixer': mixer,
 
         /*
 		 * Properties of this siren.
@@ -129,6 +137,13 @@ function DubSiren (container, options) {
     triggerButton.addEventListener('mousedown', siren.down);
     triggerButton.addEventListener('mouseup', siren.up);
 
+    var notePressed = function (e, freq) {
+        siren._oscillators[0]._oscillatorNode.frequency.setValueAtTime(freq, siren._context.currentTime);
+        siren.down(e);
+    };
+    keyboard.addListener('pressed', notePressed);
+    keyboard.addListener('released', siren.up);
+
     var components = document.createElement('div');
     [].forEach.call(siren._oscillators, function (o) {
         var div = document.createElement('div');
@@ -136,6 +151,15 @@ function DubSiren (container, options) {
         div.appendChild(o.node());
         components.appendChild(div);
     });
+
+    var div = document.createElement('div');
+    // div.classList.add('component');
+    div.appendChild(keyboard.node());
+    components.appendChild(div);
+
+    div = document.createElement('div');
+    div.appendChild(mixer.node());
+    container.appendChild(div);
 
     container.appendChild(analyser.node());
     container.appendChild(triggerButton);
